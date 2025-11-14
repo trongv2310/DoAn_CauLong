@@ -775,7 +775,7 @@ BEGIN
     SET @MaDonHang = SCOPE_IDENTITY();
 
     PRINT N'Đã tạo đơn hàng mới với Mã: ' + CAST(@MaDonHang AS NVARCHAR(10));
-    PRINT N'→ Hãy thêm chi tiết đơn hàng cho mã này để cập nhật tổng tiền.';
+    PRINT N'Hãy thêm chi tiết đơn hàng cho mã này để cập nhật tổng tiền.';
 
     RETURN @MaDonHang;
 END;
@@ -863,6 +863,29 @@ BEGIN
 END;
 GO
 
+-- Ví dụ sử dụng các thành phần đã tạo:
+-- 1. Procedure
+DECLARE @MaDon INT;
+
+EXEC @MaDon = ThemDonHang   
+    @MaKhachHang = 10,
+    @DiaChi = N'22 Lê Lợi, Hà Nội',
+    @SoDienThoai = '0988123456',
+    @GhiChu = N'Giao sau giờ hành chính';
+
+PRINT 'Mã đơn hàng mới tạo: ' + CAST(@MaDon AS NVARCHAR(10));
+
+-- 2. Function
+SELECT dbo.TinhTongTienDonHang(5) AS TongTien;
+
+-- 3. Trigger
+INSERT INTO ChiTietDonHang (MaDonHang, MaChiTietSanPham, SoLuong, DonGia, ThanhTien) VALUES
+(5, 101, 2, 150000, 2 * 150000);
+
+-- 4. Cursor
+EXEC KiemTraDonHangChuaThanhToan;
+GO
+
 -- =====================================
 -- Trọng
 -- =====================================
@@ -920,28 +943,31 @@ END
 GO
 
 -- 3. Trigger: KiemTraGiaDuong – không cho chèn giá âm
-CREATE TRIGGER KiemTraGiaDuong_SanPham
+CREATE TRIGGER trg_SanPham_ResetKhuyenMaiHetHan
 ON SanPham
-FOR INSERT, UPDATE
+AFTER INSERT, UPDATE
 AS
 BEGIN
-    IF EXISTS (SELECT 1 FROM inserted WHERE GiaGoc < 0)
-    BEGIN
-        RAISERROR(N'Giá gốc không được âm!', 16, 1)
-        ROLLBACK TRANSACTION
-    END
-END
-GO
+    SET NOCOUNT ON;
 
-CREATE TRIGGER KiemTraGiaDuong_ChiTietSanPham
-ON ChiTietSanPham
-FOR INSERT, UPDATE
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM inserted WHERE GiaBan < 0)
+    -- Lấy danh sách MaSanPham vừa bị INSERT/UPDATE
+    -- mà lại bị gán cho một MaKhuyenMai đã hết hạn
+    DECLARE @AffectedProducts TABLE (MaSanPham INT);
+    
+    INSERT INTO @AffectedProducts(MaSanPham)
+    SELECT i.MaSanPham
+    FROM inserted i
+    JOIN KhuyenMai km ON i.MaKhuyenMai = km.MaKhuyenMai
+    WHERE km.NgayKetThuc < GETDATE(); -- Điều kiện: Ngày kết thúc đã trôi qua
+
+    -- Nếu có sản phẩm vi phạm, cập nhật lại (reset) MaKhuyenMai về NULL
+    IF EXISTS (SELECT 1 FROM @AffectedProducts)
     BEGIN
-        RAISERROR(N'Giá bán không được âm!', 16, 1)
-        ROLLBACK TRANSACTION
+        UPDATE SanPham
+        SET MaKhuyenMai = NULL
+        WHERE MaSanPham IN (SELECT MaSanPham FROM @AffectedProducts);
+        
+        PRINT N'Cảnh báo: Một số sản phẩm đã được gán khuyến mãi đã hết hạn. Đã tự động gỡ khuyến mãi.';
     END
 END
 GO
@@ -1299,46 +1325,110 @@ GO
 -- Vĩ
 -- =====================================
 -- 1. procedure thêm phản hồi và có kiểm tra xem sản phẩm có tồn tại hay không
-go
-create PROCEDURE THEMPHANHOI
-@NoiDung NVARCHAR(300),@DanhGia INT , @MaKH int, @MaSP int
-as	
-begin 
---kiểm tra số sao đánh giá có hợp lệ không
-if @DanhGia is null or @DanhGia < 1 or @DanhGia > 5
-begin
-print(N'Lỗi : Đánh giá không hợp lệ (không nằm từ 1 sao đến 5 sao)')
-return
-end
--- kiêm tra khách hàng có tồn tại không
-if not exists(select 1 from KhachHang where MaKhachHang = @MaKH)
-begin
-print(N'Lỗi : Không tim thấy khách hàng này ')
-return
-end
-if not exists(select 1 from SanPham where MaSanPham = @MaSP)
-begin 
-print(N'Lỗi : Không tìm thấy sản phẩm ')
-return
-end
-insert into PhanHoi
-values(@NoiDung,GETDATE(),@DanhGia,@MaKH,@MaSP)
-select N'Thêm phản hồi thành công' as ThongBao
-end
-go
----kiểm tra TH đúng
+Create PROCEDURE THEMPHANHOI
+    @NoiDung NVARCHAR(300),
+    @DanhGia INT,
+    @MaKH INT,
+    @MaSP INT
+AS    
+BEGIN
+    SET NOCOUNT ON;
+    IF @DanhGia IS NULL OR @DanhGia < 1 OR @DanhGia > 5
+    BEGIN
+        PRINT(N'Lỗi: Đánh giá không hợp lệ (phải nằm trong khoảng từ 1 sao đến 5 sao)')
+        RETURN
+    END
+    -- 2. Kiểm tra Khách hàng và Sản phẩm tồn tại (giữ nguyên để đảm bảo khóa ngoại)
+    IF NOT EXISTS(SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKH)
+    BEGIN
+        PRINT(N'Lỗi: Không tìm thấy khách hàng này.')
+        RETURN
+    END
+    IF NOT EXISTS(SELECT 1 FROM SanPham WHERE MaSanPham = @MaSP)
+    BEGIN    
+        PRINT(N'Lỗi: Không tìm thấy sản phẩm.')
+        RETURN
+    END   
+   --kiểm tra khách hàng đã mua hàng hay chưa để có thể được phản hồi
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.DonHang DH
+        JOIN dbo.ChiTietDonHang CTDH ON DH.MaDonHang = CTDH.MaDonHang
+        JOIN dbo.ChiTietSanPham CTSP ON CTDH.MaChiTietSanPham = CTSP.MaChiTiet
+        WHERE DH.MaKhachHang = @MaKH           -- Khách hàng phải là người mua
+          AND CTSP.MaSanPham = @MaSP           -- Sản phẩm phải nằm trong chi tiết đơn hàng
+          AND DH.TrangThai = N'Đã giao'        -- (Tùy chọn) Chỉ cho phép đánh giá sau khi đã nhận hàng
+    )
+    BEGIN
+        PRINT(N'Lỗi: Khách hàng chưa từng mua sản phẩm này hoặc đơn hàng chưa hoàn tất.')
+        RETURN
+    END
+    INSERT INTO PhanHoi (NoiDung, NgayPhanHoi, DanhGia, MaKhachHang, MaSanPham)
+    VALUES (@NoiDung, GETDATE(), @DanhGia, @MaKH, @MaSP)
+    SELECT N'Thêm phản hồi thành công' AS ThongBao
+END
+GO
+-- ************************************************************
+-- ************************************************************
+-- BATCH DUY NHẤT: KHAI BÁO, LẤY GIÁ TRỊ VÀ INSERT ĐƠN HÀNG
+-- ************************************************************
+
+-- 1. KHAI BÁO VÀ LẤY GIÁ TRỊ BIẾN
+-- Lấy MaKhachHang của A và B
+DECLARE @MaKH_A INT = (SELECT MaKhachHang FROM KhachHang WHERE HoTen = N'Nguyễn Văn A');
+DECLARE @MaKH_B INT = (SELECT MaKhachHang FROM KhachHang WHERE HoTen = N'Trần Thị B');
+
+-- Lấy MaChiTietSanPham
+DECLARE @MaCTSP_Vot100ZZ INT = (SELECT MaChiTiet FROM ChiTietSanPham WHERE SKU = 'YN-AX100ZZ-4U'); 
+DECLARE @MaCTSP_QuanYN INT = (SELECT MaChiTiet FROM ChiTietSanPham WHERE SKU = 'YN-TSM3085-DEN-L');
+DECLARE @MaCTSP_Giay65Z4 INT = (SELECT MaChiTiet FROM ChiTietSanPham WHERE SKU = 'YN-SHB65Z4-TRANG-41'); 
+DECLARE @MaCTSP_AoLN INT = (SELECT MaChiTiet FROM ChiTietSanPham WHERE SKU = 'LN-A421-TRANG-M');
+
+
+-- 2. ĐƠN HÀNG 1: KHÁCH HÀNG NGUYỄN VĂN A (ĐÃ GIAO)
+INSERT INTO DonHang (MaKhachHang, TrangThai, TongTien, TongTienSauGiam, DiaChiGiaoHang, SoDienThoaiNhanHang)
+VALUES (@MaKH_A, N'Đã giao', 4500000.00 + 139000.00, 4639000.00, N'123 Nguyễn Trãi, Q.1, TP.HCM', N'0901234567');
+
+DECLARE @MaDH1 INT = SCOPE_IDENTITY();
+
+-- Chi tiết đơn hàng 1
+INSERT INTO ChiTietDonHang (MaDonHang, MaChiTietSanPham, SoLuong, DonGia, ThanhTien)
+VALUES (@MaDH1, @MaCTSP_Vot100ZZ, 1, 4500000.00, 4500000.00), 
+       (@MaDH1, @MaCTSP_QuanYN, 2, 139000.00, 278000.00); 
+
+
+-- 3. ĐƠN HÀNG 2: KHÁCH HÀNG TRẦN THỊ B (ĐANG XỬ LÝ)
+INSERT INTO DonHang (MaKhachHang, TrangThai, TongTien, TongTienSauGiam, DiaChiGiaoHang, SoDienThoaiNhanHang)
+VALUES (@MaKH_B, N'Đang xử lý', 2800000.00 + 130000.00, 2930000.00, N'456 Lê Lợi, Q.3, TP.HCM', N'0909876543');
+
+DECLARE @MaDH2 INT = SCOPE_IDENTITY();
+
+-- Chi tiết đơn hàng 2
+INSERT INTO ChiTietDonHang (MaDonHang, MaChiTietSanPham, SoLuong, DonGia, ThanhTien)
+VALUES (@MaDH2, @MaCTSP_Giay65Z4, 1, 2800000.00, 2800000.00),
+       (@MaDH2, @MaCTSP_AoLN, 1, 130000.00, 130000.00);      
+GO
 EXEC THEMPHANHOI
-    @NoiDung = N'Vợt cho bị gãy đủa',
-    @DanhGia = 2,
-    @MaKH = 2,
-    @MaSP = 3;
-	SELECT * FROM PhanHoi;
-	--sai
-	EXEC THEMPHANHOI
-    @NoiDung = N'Test lỗi Khách hàng.',
+    @NoiDung = N'Chất lượng vợt tuyệt vời, đánh rất đầm tay và trợ lực tốt.',
     @DanhGia = 5,
-    @MaKH = 999, -- không tồn tại
-    @MaSP = 1;   -- đúng
+    @MaKH = 1, 
+    @MaSP = 1; 
+
+SELECT N'--- Kiểm tra PhanHoi ---' AS ThongBao;
+SELECT * FROM PhanHoi WHERE MaKhachHang = 1;
+--trường hợp sai 
+EXEC THEMPHANHOI
+    @NoiDung = N'Tôi muốn đánh giá vợt này nhưng chưa kịp mua.',
+    @DanhGia = 4,
+    @MaKH = 1,
+    @MaSP = 2;
+	--trường hợp sai vì chưa mua 
+	EXEC THEMPHANHOI
+    @NoiDung = N'Thử đánh giá giày, nhưng đơn hàng vẫn chưa nhận được.',
+    @DanhGia = 4,
+    @MaKH = 2, 
+    @MaSP = 28;
+GO
 
 -- 2. Function tính điểm trung bình đánh giá
 CREATE FUNCTION TrungBinhDanhGia (@MaSP int)
@@ -1456,7 +1546,7 @@ GO
 
 GO
 
--- 2. PROCEDURE: Thống kê doanh thu cửa hàng theo tháng, năm
+-- 2. PROCEDURE: THỐNG KÊ DOANH THU THEO THÁNG+NĂM
 CREATE PROC ThongKeDoanhThuThang_Nam @Thang INT, @Nam INT
 AS
 BEGIN
@@ -1475,13 +1565,49 @@ GO
 --TEST--
 --EXEC ThongKeDoanhThuThang_Nam @Thang = 3, @Nam = 2025
 
+--THỐNG KÊ DOANH THU THEO QUÝ
+CREATE PROC ThongKeDoanhThu_Quy --(1 quý = 3 tháng )
+    @Nam INT
+AS
+BEGIN
+    SELECT 
+        DATEPART(QUARTER, NgayDat) AS Quy,
+        YEAR(NgayDat) AS Nam,
+        SUM(TongTienSauGiam) AS TongDoanhThu,
+        COUNT(MaDonHang) AS SoLuongDon
+    FROM DonHang
+    WHERE YEAR(NgayDat) = @Nam
+          AND TrangThai = N'Hoàn thành'
+    GROUP BY DATEPART(QUARTER, NgayDat), YEAR(NgayDat)
+    ORDER BY Quy;
+END
 GO
 
--- 3. TRIGGER: Cập nhật doanh thu khi đơn hàng được hoàn thành
+--EXEC ThongKeDoanhThu_Quy @Nam = 2025;
 
---DOANH THU CỬA HÀNG--
 GO
 
+--THỐNG KÊ DOANH THU THEO NĂM
+CREATE PROCEDURE ThongKeDoanhThuNam
+    @Nam INT
+AS
+BEGIN
+    SELECT 
+        YEAR(NgayDat) AS Nam,
+        SUM(TongTienSauGiam) AS TongDoanhThu,
+        COUNT(MaDonHang) AS SoLuongDon
+    FROM DonHang
+    WHERE YEAR(NgayDat) = @Nam
+          AND TrangThai = N'Hoàn thành'
+    GROUP BY YEAR(NgayDat)
+END
+GO
+
+-- EXEC ThongKeDoanhThuNam @Nam = 2025;
+
+GO
+
+-- 3. TRIGGER: Cập nhật doanh thu CỬA HÀNG khi đơn hàng được hoàn thành
 CREATE TRIGGER trg_DoanhThuCuaHang
 ON DonHang
 AFTER UPDATE
@@ -1509,44 +1635,6 @@ GO
 --WHERE MaDonHang = 3;
 GO
 
---DOANH THU KHÁCH HÀNG
-CREATE TRIGGER trg_DoanhThuKhachHang
-ON DonHang
-AFTER UPDATE
-AS
-BEGIN
-    SELECT KH.HoTen, DH.MaKhachHang, SUM(DH.TongTienSauGiam) AS TongDoanhThuKH
-    FROM DonHang DH
-    INNER JOIN KhachHang KH
-        ON DH.MaKhachHang = KH.MaKhachHang
-    WHERE DH.MaKhachHang IN (
-        SELECT DISTINCT MaKhachHang
-        FROM inserted
-        WHERE TrangThai = N'Hoàn thành'
-    )
-    AND DH.TrangThai = N'Hoàn thành'
-    GROUP BY DH.MaKhachHang, KH.HoTen;
-END;
-GO
-
---TEST--
---SELECT 
---    k.MaKhachHang,
---    k.HoTen,
---    (SELECT SUM(d.TongTienSauGiam)
---     FROM DonHang d
---     WHERE d.MaKhachHang = k.MaKhachHang
---           AND d.TrangThai = N'Hoàn thành') AS TongDoanhThuKH
---	FROM KhachHang k
-
-
---UPDATE DonHang
---SET TrangThai = N'Đang xử lý'
---WHERE MaDonHang = 3;
-
-GO
-
-
 -- 4. CURSOR: Duyệt doanh thu cửa hàng từng tháng trong năm
 DECLARE cur_DoanhThu CURSOR 
 FOR SELECT MONTH(NgayDat), SUM(TongTienSauGiam)
@@ -1562,7 +1650,7 @@ FETCH NEXT FROM cur_DoanhThu INTO @Thang, @DoanhThu
 PRINT N'Báo cáo doanh thu năm 2025:'
 WHILE @@FETCH_STATUS = 0
 BEGIN
-    PRINT N'Tháng: ' + CAST(@Thang AS NVARCHAR) + N' ' + CAST(@DoanhThu AS NVARCHAR)
+    PRINT N'Tháng ' + CAST(@Thang AS NVARCHAR) + '  :' + CAST(@DoanhThu AS NVARCHAR)
     FETCH NEXT FROM cur_DoanhThu INTO @Thang, @DoanhThu
 END
 

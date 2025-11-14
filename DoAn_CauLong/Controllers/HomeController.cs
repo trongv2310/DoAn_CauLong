@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoAn_CauLong.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,13 @@ namespace DoAn_CauLong.Controllers
 {
     public class HomeController : Controller
     {
+        private Model1 data = new Model1();
         public ActionResult Index()
         {
-            return View();
+            var sp = data.SanPhams
+                        .Include("LoaiSanPham")
+                        .ToList();
+            return View(sp);
         }
 
         public ActionResult About()

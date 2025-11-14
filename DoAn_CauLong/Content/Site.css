@@ -581,6 +581,35 @@ footer {
     border-top: 1px solid rgba(255,255,255,0.08);
 }
 
+/* Banner image improvements */
+.banner-img {
+    height: 400px;
+    object-fit: cover;
+    object-position: center center; /* can be adjusted to "top center" if subject is near top */
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .banner-img {
+        height: 220px;
+    }
+}
+
+.carousel-caption {
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.2));
+    padding: 12px 18px;
+    border-radius: 6px;
+}
+
+.carousel-caption h3 {
+    margin: 0 0 6px 0;
+    font-weight: 700;
+}
+
+.carousel-caption p {
+    margin: 0;
+}
+
 @media (max-width: 1200px) {
     .mega-submenu {
         min-width: 700px;

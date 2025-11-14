@@ -192,7 +192,7 @@ else
                         <div class="card">
                             <img src="@Url.Content($"~/Content/images/{sp.HinhAnhDaiDien}")" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/default-product.jpg")'" alt="@sp.TenSanPham" />
                             <h3>@sp.TenSanPham</h3>
-                            <a href="@Url.Action("ChiTiet", "SanPham", new { id = sp.MaSanPham })" style="text-decoration:none;">
+                            <a href="@Url.Action("ChiTietSanPham", "Home", new { id = sp.MaSanPham })" style="text-decoration:none;">
                                 <p>@(sp.GiaGoc.GetValueOrDefault().ToString("N0") + "₫")</p>
                             </a>
                         </div>

@@ -1,0 +1,8 @@
+# Visual Studio files and related
+.vs/
+*.suo
+*.user
+*.bak
+
+# GitHub Copilot / IDE cache
+CopilotSnapshots/

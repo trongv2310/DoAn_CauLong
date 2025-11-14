@@ -308,14 +308,14 @@ VALUES
 (N'Vợt Cầu Lông Yonex Nanoflare 700 Pro', N'Vợt nhẹ đầu, tốc độ cao, hỗ trợ phản tạt nhanh.', 4489000, 'nanoflare700pro.jpg', 1, 2, 1, 2, 1, 1), -- Áp dụng Chào Hè
 (N'Vợt Cầu Lông Yonex Arcsaber 11 Pro', N'Dòng vợt cân bằng, kiểm soát cầu tuyệt vời, huyền thoại trở lại.', 4100000, 'arcsaber11pro.jpg', 1, 2, 1, NULL, 1, 1),
 
-(N'Vợt Cầu Lông Lining Aeronaut 9000C', N'Dòng vợt tấn công, nặng đầu, khung vát gió', 4300000, 'lining_aero9000c.jpg', 2, 2, 2, NULL, 1, 1),
-(N'Vợt Cầu Lông Lining Aeronaut 9000I', N'Dòng vợt chuyên đánh tốc độ, phản tạt nhanh', 4300000, 'lining_aero9000i.jpg', 2, 2, 2, 1, 1, 1), -- Áp dụng KM 30/4
-(N'Vợt Cầu Lông Lining Tectonic 7', N'Vợt công thủ toàn diện, dễ thuần', 3200000, 'lining_tectonic7.jpg', 2, 2, 2, NULL, 1, 1),
-(N'Vợt Cầu Lông Lining Axforce 90 Max', N'Vợt "Rồng" chuyên công, rất nặng đầu', 4100000, 'lining_axforce90max.jpg', 2, 2, 2, NULL, 1, 1),
-(N'Vợt Cầu Lông Lining Axforce 80', N'Vợt tấn công, trợ lực tốt, dễ chơi hơn Axforce 90', 3900000, 'lining_axforce80.jpg', 2, 2, 2, 5, 1, 1), -- Áp dụng Black Friday
-(N'Vợt Cầu Lông Lining Calibar 600', N'Vợt tầm trung, thiên công, giá cả phải chăng', 3100000, 'lining_calibar600.jpg', 2, 2, 2, NULL, 1, 1),
-(N'Vợt Cầu Lông Lining Bladex 800', N'Dòng vợt mới, khung sắc, tốc độ nhanh', 4200000, 'lining_bladex800.jpg', 2, 2, 2, NULL, 1, 1),
-(N'Vợt Cầu Lông Lining Tectonic 9', N'Vợt cao cấp, nặng đầu, tăng cường lực đập', 3500000, 'lining_tectonic9.jpg', 2, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Aeronaut 9000C', N'Dòng vợt tấn công, nặng đầu, khung vát gió', 4300000, 'lining_aero9000c.jpg', 1, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Aeronaut 9000I', N'Dòng vợt chuyên đánh tốc độ, phản tạt nhanh', 4300000, 'lining_aero9000i.jpg', 1, 2, 2, 1, 1, 1), -- Áp dụng KM 30/4
+(N'Vợt Cầu Lông Lining Tectonic 7', N'Vợt công thủ toàn diện, dễ thuần', 3200000, 'lining_tectonic7.jpg', 1, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Axforce 90 Max', N'Vợt "Rồng" chuyên công, rất nặng đầu', 4100000, 'lining_axforce90max.jpg', 1, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Axforce 80', N'Vợt tấn công, trợ lực tốt, dễ chơi hơn Axforce 90', 3900000, 'lining_axforce80.jpg', 1, 2, 2, 5, 1, 1), -- Áp dụng Black Friday
+(N'Vợt Cầu Lông Lining Calibar 600', N'Vợt tầm trung, thiên công, giá cả phải chăng', 3100000, 'lining_calibar600.jpg', 1, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Bladex 800', N'Dòng vợt mới, khung sắc, tốc độ nhanh', 4200000, 'lining_bladex800.jpg', 1, 2, 2, NULL, 1, 1),
+(N'Vợt Cầu Lông Lining Tectonic 9', N'Vợt cao cấp, nặng đầu, tăng cường lực đập', 3500000, 'lining_tectonic9.jpg', 1, 2, 2, NULL, 1, 1),
 
 (N'Vợt Cầu Lông Victor Auraspeed 100X Ultra', N'Dòng vợt tốc độ, linh hoạt, công thủ toàn diện', 4100000, 'victor_as100x_ultra.jpg', 1, 3, 3, NULL, 1, 1),
 (N'Vợt Cầu Lông Victor TK Ryuga Metallic', N'Vợt chuyên công, thiết kế mạnh mẽ, đập cầu uy lực', 3500000, 'victor_ryuga_metallic.jpg', 1, 3, 3, NULL, 1, 1),

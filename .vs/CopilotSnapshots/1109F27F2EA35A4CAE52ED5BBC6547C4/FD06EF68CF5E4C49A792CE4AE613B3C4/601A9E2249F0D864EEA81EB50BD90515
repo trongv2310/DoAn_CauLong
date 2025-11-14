@@ -1,0 +1,22 @@
+﻿@* The @block directive is used to define a block of content that can be rendered in a layout or another view. In this case, we use it to define the title of the page. *@
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@* The Partial method is used to render a partial view. Partial views are like user controls in Web Forms - they allow you to encapsulate a portion of your page's markup and logic, and reuse it in multiple places. Here, we render the _Banner partial view, which is assumed to be present in the shared views folder. *@
+@Html.Partial("_Banner")
+
+@* The div with class "container mt-4" defines a Bootstrap container. Containers are used to pad the content inside of them and are the fundamental building block of Bootstrap's layout. The "mt-4" class adds a top margin to the container. *@
+<div class="container mt-4">
+    @* Row class is used for creating a horizontal group of columns.  *@
+    <div class="row">
+        @* Column classes are used to create a responsive grid system. "col-12" means the column will take up all 12 columns of the grid on extra small devices and above. *@
+        <div class="col-12">
+            @* Page title *@
+            <h2>Nội dung trang chủ</h2>
+            @* Page description or instructions *@
+            <p>Đặt nội dung chính ở đây, ví dụ: sản phẩm nổi bật, danh mục, khuyến mãi...</p>
+        </div>
+    </div>
+</div>
+

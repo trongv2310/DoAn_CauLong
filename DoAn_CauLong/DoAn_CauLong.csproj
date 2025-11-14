@@ -56,6 +56,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -131,6 +133,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTietDonHang.cs" />
+    <Compile Include="Models\ChiTietSanPham.cs" />
+    <Compile Include="Models\DonHang.cs" />
+    <Compile Include="Models\GioHang.cs" />
+    <Compile Include="Models\Hang.cs" />
+    <Compile Include="Models\KhachHang.cs" />
+    <Compile Include="Models\KhuyenMai.cs" />
+    <Compile Include="Models\LichSuThayDoiGia.cs" />
+    <Compile Include="Models\LoaiSanPham.cs" />
+    <Compile Include="Models\LogLoiGiaoTac.cs" />
+    <Compile Include="Models\MauSac.cs" />
+    <Compile Include="Models\Model1.cs" />
+    <Compile Include="Models\NhaCungCap.cs" />
+    <Compile Include="Models\PhanHoi.cs" />
+    <Compile Include="Models\PhanQuyen.cs" />
+    <Compile Include="Models\SanPham.cs" />
+    <Compile Include="Models\Size.cs" />
+    <Compile Include="Models\TaiKhoan.cs" />
+    <Compile Include="Models\ThongSoVot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +171,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\images\aoquan.jpeg" />
     <Content Include="Content\images\arcsaber11pro.jpg" />
     <Content Include="Content\images\astrox100zz.jpg" />
     <Content Include="Content\images\astrox77pro.jpg" />
@@ -157,6 +179,12 @@
     <Content Include="Content\images\astrox88spro.jpg" />
     <Content Include="Content\images\astrox99pro.jpg" />
     <Content Include="Content\images\astrox99protrang.jpg" />
+    <Content Include="Content\images\banner1.png" />
+    <Content Include="Content\images\banner2.png" />
+    <Content Include="Content\images\banner3.png" />
+    <Content Include="Content\images\default-category.jpg" />
+    <Content Include="Content\images\default-product.jpg" />
+    <Content Include="Content\images\giay_lining.png" />
     <Content Include="Content\images\lining_3715.jpg" />
     <Content Include="Content\images\lining_a421.jpg" />
     <Content Include="Content\images\lining_aero9000c.jpg" />
@@ -191,6 +219,7 @@
     <Content Include="Content\images\victor_p9200iii.jpg" />
     <Content Include="Content\images\victor_ryuga_metallic.jpg" />
     <Content Include="Content\images\victor_tfclaw.jpg" />
+    <Content Include="Content\images\yonex.png" />
     <Content Include="Content\images\yonex_65z4.jpg" />
     <Content Include="Content\images\yonex_aerus_z2_bac.jpg" />
     <Content Include="Content\images\yonex_aerus_z2_den.jpg" />
@@ -234,10 +263,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Banner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

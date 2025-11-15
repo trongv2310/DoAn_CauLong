@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="cart-section">
-                    <a href="@Url.Action("Index", "GioHang")" class="cart-btn">
+                    <a href="@Url.Action("ViewCart", "Home")" class="cart-btn">
 
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="cart-text">Giỏ hàng</span>
@@ -273,7 +273,7 @@
                 </li>
 
                 <li><a href="@Url.Action("Index", "KhuyenMai")">KHUYẾN MÃI</a></li>
-                <li><a href="@Url.Action("Index", "GioHang")">GIỎ HÀNG</a></li>
+                <li><a href="@Url.Action("ViewCart", "Home")">GIỎ HÀNG</a></li>
                 <li><a href="@Url.Action("Index", "DonHang")">ĐƠN HÀNG</a></li>
                 <li><a href="@Url.Action("LienHe", "Home")">LIÊN HỆ</a></li>
             </ul>
@@ -312,8 +312,7 @@
             </div>
             <div class="footer-section">
                 <h4>DANH MỤC SẢN PHẨM</h4>
-                <a href="@Url.Action("Index", "SanPham", new
- { loai = "Vot" })">Vợt cầu lông</a>
+                <a href="@Url.Action("Index", "SanPham", new { loai = "Vot" })">Vợt cầu lông</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "Giay" })">Giày cầu lông</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "AoQuan" })">Áo quần thể thao</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien" })">Phụ kiện cầu lông</a>

@@ -26,6 +26,10 @@ namespace QLDN_CauLong.Controllers
 
         public ActionResult About()
         {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 241a1bd6e14c1d90a7d5de3c809670e24ca4f435
             ViewBag.Message = "Rô nao đô GOAT";
 
             return View();

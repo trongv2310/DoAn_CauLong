@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="cart-section">
-                    <a href="@Url.Action("Index", "GioHang")" class="cart-btn">
+                    <a href="@Url.Action("ViewCart", "Home")" class="cart-btn">
 
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="cart-text">Giỏ hàng</span>
@@ -117,7 +117,6 @@
                     <a href="@Url.Action("Index", "SanPham")">
                         SẢN PHẨM
                         <i class="fa-solid fa-chevron-down"></i>
-
                     </a>
 
                     <div class="mega-submenu">
@@ -159,35 +158,26 @@
                                     <div class="brand-column">
 
                                         <p class="brand-title">GIÀY YONEX</p>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "Giay" })">Giày Yonex Power Cushion</a>
+                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "Giay" })">Giày Yonex 65</a>
 
                                         <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "Giay" })">Giày Yonex Aerus</a>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "Giay" })">Giày Yonex Comfort</a>
+                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "Giay" })">Giày Yonex Eclipsion</a>
 
                                     </div>
 
                                     <div class="brand-column">
-                                        <p class="brand-title">GIÀY LINING</p>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "Giay" })">GIÀY LINING</a></p>
 
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "Giay" })">Giày Lining Pro</a>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "Giay" })">
-                                            Giày
-                                            Lining Lite
-                                        </a>
                                     </div>
 
                                     <div class="brand-column">
 
-                                        <p class="brand-title">GIÀY VICTOR</p>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Victor", loai = "Giay" })">Giày Victor JR</a>
-
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Victor", loai = "Giay" })">Giày Victor Elite</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Victor", loai = "Giay" })">GIÀY VICTOR</a></p>
                                     </div>
 
                                     <div class="brand-column">
 
-                                        <p class="brand-title">GIÀY MIZUNO</p>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Mizuno", loai = "Giay" })">Giày Mizuno Wave</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Mizuno", loai = "Giay" })">GIÀY MIZUNO</a></p>
 
                                     </div>
                                 </div>
@@ -241,32 +231,23 @@
                                 <div class="product-brands-grid">
 
                                     <div class="brand-column">
-                                        <p class="brand-title">ÁO QUẦN YONEX</p>
-
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "AoQuan" })">Áo Yonex Dry</a>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "AoQuan" })">Quần Yonex Light</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Yonex", loai = "AoQuan" })">ÁO QUẦN YONEX</a></p>
 
                                     </div>
 
                                     <div class="brand-column">
-                                        <p class="brand-title">ÁO QUẦN LINING</p>
-
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "AoQuan" })">Áo Lining Pro</a>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "AoQuan" })">Quần Lining Fit</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Lining", loai = "AoQuan" })">ÁO QUẦN LINING</a></p>
 
                                     </div>
 
                                     <div class="brand-column">
 
-                                        <p class="brand-title">ÁO QUẦN VICTOR</p>
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Victor", loai = "AoQuan" })">Áo Victor Performance</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Victor", loai = "AoQuan" })">ÁO QUẦN VICTOR</a></p>
                                     </div>
 
 
                                     <div class="brand-column">
-                                        <p class="brand-title">ÁO QUẦN MIZUNO</p>
-
-                                        <a href="@Url.Action("Index", "SanPham", new { hang = "Mizuno", loai = "AoQuan" })">Áo Mizuno Comfort</a>
+                                        <p class="brand-title"><a href="@Url.Action("Index", "SanPham", new { hang = "Mizuno", loai = "AoQuan" })">ÁO QUẦN MIZUNO</a></p>
                                     </div>
                                 </div>
 
@@ -278,10 +259,10 @@
                                     <div class="brand-column">
                                         <p class="brand-title">PHỤ KIỆN CẦU LÔNG</p>
 
-                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien" })">Túi đựng vợt</a>
-                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien" })">Dây cuốn cán</a>
+                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien", hang = "" })">Túi đựng vợt</a>
+                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien", hang = "" })">Dây cuốn cán</a>
 
-                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien" })">Balo cầu lông</a>
+                                        <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien", hang = "" })">Balo cầu lông</a>
                                     </div>
 
                                 </div>
@@ -292,7 +273,7 @@
                 </li>
 
                 <li><a href="@Url.Action("Index", "KhuyenMai")">KHUYẾN MÃI</a></li>
-                <li><a href="@Url.Action("Index", "GioHang")">GIỎ HÀNG</a></li>
+                <li><a href="@Url.Action("ViewCart", "Home")">GIỎ HÀNG</a></li>
                 <li><a href="@Url.Action("Index", "DonHang")">ĐƠN HÀNG</a></li>
                 <li><a href="@Url.Action("LienHe", "Home")">LIÊN HỆ</a></li>
             </ul>
@@ -331,8 +312,7 @@
             </div>
             <div class="footer-section">
                 <h4>DANH MỤC SẢN PHẨM</h4>
-                <a href="@Url.Action("Index", "SanPham", new
- { loai = "Vot" })">Vợt cầu lông</a>
+                <a href="@Url.Action("Index", "SanPham", new { loai = "Vot" })">Vợt cầu lông</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "Giay" })">Giày cầu lông</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "AoQuan" })">Áo quần thể thao</a>
                 <a href="@Url.Action("Index", "SanPham", new { loai = "PhuKien" })">Phụ kiện cầu lông</a>

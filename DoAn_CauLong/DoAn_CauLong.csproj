@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuanLyTaiKhoanController.cs" />
+    <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -278,6 +279,11 @@
     <Content Include="Views\QuanLyTaiKhoan\Index.cshtml" />
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\SanPham\Index.cshtml" />
+=======
+    <Content Include="Views\SanPham\ViewAllProduct.cshtml" />
+>>>>>>> 97532e1c1bfc77c9a590242e4e4df76c67db180f
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

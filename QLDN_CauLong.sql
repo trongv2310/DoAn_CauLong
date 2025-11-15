@@ -116,7 +116,6 @@ CREATE TABLE ThongSoVot (
     FOREIGN KEY (MaChiTiet) REFERENCES ChiTietSanPham(MaChiTiet)
 );
 
-
 -- Bảng KhachHang
 CREATE TABLE KhachHang (
     MaKhachHang INT PRIMARY KEY IDENTITY(1,1),
@@ -347,11 +346,11 @@ VALUES
 
 --Áo/Quần
 (N'Áo Cầu Lông Yonex TRM3089', N'Áo thi đấu đội tuyển, chất liệu poly', 119000, 'yonex_trm3089.jpg', 3, 1, 1, 2, 1, 1), -- KM Chào Hè
-(N'ÁoCầu Lông Yonex TRM3053 ', N'Áo thi đấu đội tuyển, chất liệu poly', 169000, 'yonex_trm3053.jpg', 3, 1, 1, NULL, 1, 1),
+(N'Áo Cầu Lông Yonex TRM3053 ', N'Áo thi đấu đội tuyển, chất liệu poly', 169000, 'yonex_trm3053.jpg', 3, 1, 1, NULL, 1, 1),
 (N'Quần Cầu Lông Yonex TSM3085', N'Quần short thể thao, co giãn 4 chiều', 139000, 'yonex_tsm3085.jpg', 3, 1, 1, NULL, 1, 1),
 
 (N'Áo Cầu Lông Lining A421 ', N'Áo thi đấu đội tuyển Trung Quốc 2024', 130000, 'lining_a421.jpg', 3, 2, 2, NULL, 1, 1),
-(N'Áo Cầu Lông Lining 3175', N'Áo thi đấu đội tuyển Trung Quốc 2024', 160000, 'lining_3175.jpg', 3, 2, 2, NULL, 1, 1),
+(N'Áo Cầu Lông Lining 3715', N'Áo thi đấu đội tuyển Trung Quốc 2024', 160000, 'lining_3715.jpg', 3, 2, 2, NULL, 1, 1),
 (N'Quần Cầu Lông Lining Q21', N'Quần short, chất liệu thoáng khí', 110000, 'lining_q21.jpg', 3, 2, 2, 2, 1, 1); -- KM Chào Hè
 GO
 
@@ -411,8 +410,6 @@ VALUES
 (25, 1, 2, 4990000, 40, 'MIZUNO-JPX-RESERVE-EDITION-DEN-4U', 'mizuno_jpx_reserve.jpg'),     -- MaChiTiet = 46
 (26, 1, 2, 3599000, 40, 'MIZUNO-F70-DEN-4U', 'mizuno_fortius70.jpg'),     -- MaChiTiet = 47
 (27, 1, 2, 4500000, 40, 'MIZUNO-ALTIUS-01SPEEDLIMITED-DEN-4U', 'mizuno_altius01speedlimited.jpg'),     -- MaChiTiet = 48
-
-
 
 (28, 6, 14, 2800000, 30, 'YN-SHB65Z4-TRANG-35', 'yonex_65z4.jpg'),   -- MaChiTiet = 49
 (28, 6, 15, 2800000, 30, 'YN-SHB65Z4-TRANG-36', 'yonex_65z4.jpg'),   -- MaChiTiet = 50

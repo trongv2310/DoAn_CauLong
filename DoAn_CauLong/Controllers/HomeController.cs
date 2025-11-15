@@ -24,7 +24,7 @@ namespace QLDN_CauLong.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Rô nao đô GOAT";
 
             return View();
         }

@@ -4,17 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-<<<<<<< HEAD
-using DoAn_CauLong.Models;
-=======
 using System.Data.Entity;
->>>>>>> 97532e1c1bfc77c9a590242e4e4df76c67db180f
-
 namespace DoAn_CauLong.Controllers
 {
     public class SanPhamController : Controller
     {
-<<<<<<< HEAD
         private Model1 db = new Model1();
 
         // GET: SanPham
@@ -89,13 +83,12 @@ namespace DoAn_CauLong.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-=======
-        private Model1 data = new Model1();
+        }
         // GET: SanPham
         public ActionResult ViewAllProduct(int maLoai)
         {
             // 1. Lấy tên loại sản phẩm để hiển thị trên tiêu đề trang
-            var loaiSanPham = data.LoaiSanPhams
+            var loaiSanPham = db.LoaiSanPhams
                 .SingleOrDefault(l => l.MaLoai == maLoai);
 
             if (loaiSanPham == null)
@@ -104,7 +97,7 @@ namespace DoAn_CauLong.Controllers
             }
 
             // 2. Lấy tất cả sản phẩm thuộc loại này
-            var sanPhams = data.SanPhams
+            var sanPhams = db.SanPhams
                 .Where(sp => sp.MaLoai == maLoai)
                 .Include(sp => sp.LoaiSanPham) // Tùy chọn: Bao gồm thông tin loại nếu cần
                 .ToList();
@@ -112,7 +105,6 @@ namespace DoAn_CauLong.Controllers
             // 3. Truyền danh sách sản phẩm và tên loại vào View
             ViewBag.TenLoai = loaiSanPham.TenLoai;
             return View(sanPhams);
->>>>>>> 97532e1c1bfc77c9a590242e4e4df76c67db180f
         }
     }
 }
